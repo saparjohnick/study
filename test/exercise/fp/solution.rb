@@ -12,7 +12,9 @@ module Exercise
       end
 
       def chars_count(_films, _threshold)
-        0
+        _films.select{|film| film["rating_kinopoisk"].present? \
+                      && film["rating_kinopoisk"].to_f > _threshold} \
+              .map{|film| film["name"].count("и")}.reduce(:+)
       end
     end
   end
