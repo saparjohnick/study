@@ -33,7 +33,7 @@ class Exercise::Fp2Test < Minitest::Test
 
     func_another = ->(element) { element * @int }
     func_yet_another = ->(element) { element.even? }
-    
+
     assert @array.map(&func).compact == @my_array.my_map(&func).my_compact
     assert @array.map(&func).compact.map(&func_another) == @my_array.my_map(&func).my_compact.my_map(&func_another)
     assert @array.map(&func_yet_another).compact == @my_array.my_map(&func_yet_another).my_compact
