@@ -5,7 +5,7 @@ module Exercise
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
       def rating(_array)
-        0 
+        0
       end
 
       def chars_count(_films, _threshold)
