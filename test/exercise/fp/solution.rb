@@ -5,11 +5,19 @@ module Exercise
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
       def rating(_array)
-        0
+        _array.select { |film| film['country'].present? && film['country'].include?(',') }.map do |film|
+          film['rating_kinopoisk'].to_f \
+                    if film['rating_kinopoisk'].to_f > 0
+        end         \
+              .select(&:present?).instance_eval { reduce(:+) / size }
       end
 
       def chars_count(_films, _threshold)
-        0
+        _films.select do |film|
+          film['rating_kinopoisk'].present? \
+                      && film['rating_kinopoisk'].to_f > _threshold
+        end         \
+              .map { |film| film['name'].count('и') }.reduce(:+)
       end
     end
   end
