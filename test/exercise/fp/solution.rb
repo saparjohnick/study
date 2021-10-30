@@ -5,28 +5,22 @@ module Exercise
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
       def rating(array)
-        rating_query(array).map { |film| film['rating_kinopoisk'].to_f }
-                           .instance_eval { reduce(:+) / size }
-      end
-
-      def rating_query(array)
-        array.select do |film|
+        films = array.select do |film|
           film['country'].present? \
           && film['country'].include?(',') \
           && film['rating_kinopoisk'].to_f.positive?
         end
+        rating_sum = films.map { |film| film['rating_kinopoisk'].to_f }
+                          .reduce(&:+)
+        rating = rating_sum / films.size
       end
 
       def chars_count(films, threshold)
-        chars_count_query(films, threshold)
-          .map { |film| film['name'].count('и') }.reduce(:+)
-      end
-
-      def chars_count_query(films, threshold)
-        films.select do |film|
+        films = films.select do |film|
           film['rating_kinopoisk'].present? \
           && film['rating_kinopoisk'].to_f > threshold
         end
+        chars_sum = films.map { |film| film['name'].count('и') }.reduce(:+)
       end
     end
   end
