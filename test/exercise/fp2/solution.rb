@@ -5,12 +5,11 @@ module Exercise
       # Использовать свои написанные функции для реализации следующих - можно.
 
       # Написать свою функцию my_each
-      def my_each(i = nil, &block)
-        i ||= 0
-        return self unless i < length
-
-        block.call(self[i])
-        my_each(i += 1, &block)
+      def my_each(&block)
+        for num in self
+          block.call(num)
+        end
+        self
       end
 
       # Написать свою функцию my_map
@@ -30,18 +29,15 @@ module Exercise
       end
 
       # Написать свою функцию my_reduce
-      def my_reduce(acc = nil, i = nil, array = nil, &block)
-        i ||= 0
-        array ||= self
-        return acc unless i < array.length
-
-        unless acc.present?
-          acc = self[0] # first element taken as acc
-          array = drop(1) # don't count first element
+      def my_reduce(acc = nil, &block)
+        my_each do |num|
+          if acc.nil?
+            acc = num
+            next
+          end
+          acc = block.call(acc, num)
         end
-
-        acc = yield(acc, array[i])
-        my_reduce(acc, i += 1, array, &block)
+        acc
       end
     end
   end
