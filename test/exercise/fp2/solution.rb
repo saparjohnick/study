@@ -7,12 +7,11 @@ module Exercise
       # Написать свою функцию my_each
       def my_each(array = nil, &block)
         array ||= self
-        starts_at ||= 0
         return self if array.size == 0
-
-        block.call(array.first)
-        starts_at += 1
-        my_each(array[starts_at..array.size-1], &block)
+        
+        first_el, *new_array = array
+        block.call(first_el)
+        my_each(new_array, &block)
       end
 
       # Написать свою функцию my_map
@@ -33,14 +32,13 @@ module Exercise
 
       # Написать свою функцию my_reduce
       def my_reduce(acc = nil, array = nil, &block)
-        starts_at ||= 0
         array ||= self
         return acc if array.size == 0
 
         acc, *array = array if acc.nil?
         acc = yield(acc, array.first)
-        starts_at += 1
-        my_reduce(acc, array[starts_at..array.size-1], &block)
+        first_el, *new_array = array
+        my_reduce(acc, new_array, &block)
       end
     end
   end
