@@ -17,13 +17,13 @@ module Exercise
       # Написать свою функцию my_map
       def my_map(&block)
         result = MyArray.new
-        my_reduce(1) { |_acc, el| result << block.call(el) }
+        my_reduce(result) { |_acc, el| result << block.call(el) }
       end
 
       # Написать свою функцию my_compact
       def my_compact
         result = MyArray.new
-        my_reduce(1) do |acc, el|
+        my_reduce(result) do |acc, el|
           result << el unless el.nil?
           acc
         end
